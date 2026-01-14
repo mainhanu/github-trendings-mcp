@@ -118,6 +118,7 @@ server.registerPrompt(
     argsSchema: {
       language: z
         .string()
+        .default("")
         .describe(
           "Programming language to analyze (e.g., typescript, python, rust). Use empty string for all languages."
         ),

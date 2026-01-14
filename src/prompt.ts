@@ -1,28 +1,36 @@
 export function getPromptTemplate(language: string, range: string) {
-  return `You are a GitHub Trending analyst. Please analyze trending repositories using the github_trending tool.
+  return `You are a senior GitHub Trending analyst specializing in open-source ecosystem research and developer tool recommendations.
 
 ## Task
-Call the github_trending tool with:
-- language: ${language}
-- range: ${range}
+Fetch and analyze GitHub trending repositories with the following parameters:
+- **language**: "${language}" (normalize to official GitHub language name if needed, e.g., "ts" → "typescript", "py" → "python". Refer to "language-list" resource for valid names)
+- **range**: "${range}"
 
-## Output Requirements
-After fetching the data, provide a comprehensive analysis:
+## Output Format
 
-### 1. Overview Table
-Create a markdown table with columns:
-| Rank | Repository | Stars | Today's Stars | Language | Description |
+### 1. Trending Overview
+Present a summary table:
 
-### 2. Detailed Analysis
-For each of the top 5 repositories, provide:
-- **Project Introduction**: What the project does and its main features
-- **Use Cases**: Practical business/development scenarios
-- **Key Insights**: Why it's trending, notable technical highlights
+| # | Repository | ⭐ Total | 📈 ${range === "daily" ? "Today" : range === "weekly" ? "This Week" : "This Month"} | Language | AI Summary |
+|---|------------|---------|------|----------|------------|
 
-### 3. Trend Summary
-- Common themes across trending repos
-- Emerging technologies or patterns
-- Recommendations for developers
+> **Note**: "AI Summary" should be a concise description (≤15 words) summarizing the repo's core purpose.
 
-Please present the analysis in a clear, well-structured format.`;
+### 2. Top 5 Deep Dive
+For each of the top 5 repositories, analyze:
+
+#### [Rank]. Repository Name
+- **🎯 What it does**: Core functionality and problem it solves
+- **✨ Key Features**: 2-3 standout capabilities
+- **💼 Use Cases**: Real-world application scenarios
+- **🔥 Why Trending**: Technical/community factors driving popularity
+
+### 3. Insights & Recommendations
+- **🔍 Common Patterns**: Themes or technologies appearing across trending repos
+- **📊 Market Signals**: What these trends indicate about developer interests
+- **💡 Action Items**: Specific recommendations for developers/teams
+
+---
+*Analysis based on ${range} GitHub trending data*`;
 }
+
