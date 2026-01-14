@@ -1,0 +1,40 @@
+{
+  "name": "github-trending-mcp",
+  "version": "0.0.1",
+  "description": "mcp server for github trendings",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "type": "module",
+  "bin": {
+    "github-trending-mcp": "bin/github-trending-mcp.js"
+  },
+  "scripts": {
+    "dev": "tsx src/index.ts",
+    "build": "tsup",
+    "prepublishOnly": "npm run build",
+    "test": "vitest",
+    "test:run": "vitest run",
+    "test:coverage": "vitest run --coverage"
+  },
+  "keywords": [],
+  "authors": [
+    "mainhanu@outlook.com"
+  ],
+  "license": "MIT",
+  "files": [
+    "dist"
+  ],
+  "publishConfig": {
+    "access": "public"
+  },
+  "devDependencies": {
+    "tsup": "^8.5.1",
+    "tsx": "^4.21.0",
+    "vitest": "^4.0.17"
+  },
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.25.2",
+    "cheerio": "^1.1.2",
+    "zod": "^4.3.5"
+  }
+}
