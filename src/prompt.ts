@@ -3,13 +3,13 @@ export function getPromptTemplate(language: string, range: string) {
 
 ## Task
 Fetch and analyze GitHub trending repositories with the following parameters:
-- **language**: "${language}" (normalize to official GitHub language name if needed, e.g., "ts" → "typescript", "py" → "python". Refer to "language-list" resource for valid names)
+- **language**: "${language}" (normalize to official GitHub language name if needed, e.g., "ts" → "typescript", "py" → "python"; supports multiple languages separated by space or comma. Refer to "language-list" resource for valid names)
 - **range**: "${range}"
 
 ## Output Format
 
 ### 1. Trending Overview
-Present a summary table:
+Present a summary table (Repository must be a clickable link: \`[owner/repo](https://github.com/owner/repo)\`):
 
 | # | Repository | ⭐ Total | 📈 ${range === "daily" ? "Today" : range === "weekly" ? "This Week" : "This Month"} | Language | AI Summary |
 |---|------------|---------|------|----------|------------|

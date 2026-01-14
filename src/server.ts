@@ -118,15 +118,15 @@ server.registerPrompt(
     argsSchema: {
       language: z
         .string()
-        .default("")
+        .optional()
         .describe(
-          "Programming language to analyze (e.g., typescript, python, rust). Use empty string for all languages."
+          "Programming language to analyze (e.g., typescript, python, rust). Leave empty for all languages."
         ),
       range: z
         .enum(["daily", "weekly", "monthly"])
-        .default("daily")
+        .optional()
         .describe(
-          "Time range for trending: 'daily' (today), 'weekly' (this week), or 'monthly' (this month)"
+          "Time range for trending: 'daily' (default), 'weekly' (this week), or 'monthly' (this month)"
         ),
     },
   },
@@ -137,7 +137,7 @@ server.registerPrompt(
           role: "user",
           content: {
             type: "text",
-            text: getPromptTemplate(language, range),
+            text: getPromptTemplate(language ?? "", range ?? "daily"),
           },
         },
       ],
