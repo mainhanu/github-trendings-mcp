@@ -16,6 +16,8 @@ Present a summary table (Repository must be a clickable link: \`[owner/repo](htt
 
 > **Note**: "AI Summary" should be a concise description (≤15 words) summarizing the repo's core purpose.
 
+⚠️ **IMPORTANT**: Preserve the exact order and data from the tool result. Do NOT reorder, filter, or modify the ranking. Simply format the raw data into the markdown table and add your analysis.
+
 ### 2. Top 5 Deep Dive
 For each of the top 5 repositories, analyze:
 
