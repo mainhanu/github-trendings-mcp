@@ -1,4 +1,18 @@
 import * as cheerio from "cheerio";
+import { ProxyAgent } from "undici";
+
+function getProxyAgent(): ProxyAgent | undefined {
+  const proxyUrl =
+    process.env.https_proxy ||
+    process.env.HTTPS_PROXY ||
+    process.env.http_proxy ||
+    process.env.HTTP_PROXY;
+
+  if (proxyUrl) {
+    return new ProxyAgent(proxyUrl);
+  }
+  return undefined;
+}
 
 interface TrendingUser {
   avatar: string;
@@ -47,8 +61,10 @@ function buildTrendingUrl({
 }
 
 async function fetchPage(params: FetchTrendingParams): Promise<string> {
+  const dispatcher = getProxyAgent();
   const response = await fetch(buildTrendingUrl(params), {
     headers: { "User-Agent": USER_AGENT },
+    ...(dispatcher && { dispatcher }),
   });
   return response.text();
 }
