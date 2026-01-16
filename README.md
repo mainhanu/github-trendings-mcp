@@ -8,32 +8,16 @@ A Model Context Protocol (MCP) server that provides access to GitHub Trending re
 ## Features
 
 - 🔥 **Fetch Trending Repositories** - Get the latest trending repos from GitHub
+- 📝 **Built-in Prompts** - Includes analysis prompts for comprehensive insights
 - 🌐 **Multi-Language Support** - Query multiple languages in one request for better efficiency (supports 600+ languages)
-- ⚡ **Batch Fetching** - Fetch trends for multiple languages simultaneously, saving time and API calls
 - 📊 **Detailed Data** - Returns stars, forks, contributors, and AI generated descriptions
 - 📈 **Daily Tracking** - Use daily to track and analyze technology trends over time
-- 📝 **Built-in Prompts** - Includes analysis prompts for comprehensive insights
 
 ## Installation
 
-### Using npx (Recommended)
-
-You can run the MCP server directly without installation:
-
-```bash
-npx github-trending-mcp
-```
-
-### Global Installation
 
 ```bash
 npm install -g github-trending-mcp
-```
-
-Then run:
-
-```bash
-github-trending-mcp
 ```
 
 ### Update
@@ -47,73 +31,14 @@ npm update -g github-trending-mcp
 ## Configuration
 
 ### VS Code with Copilot
-
-Add the following to your VS Code `settings.json`:
-
-```json
-{
-  "mcp": {
-    "servers": {
-      "github-trending": {
-        "command": "github-trending-mcp"
-      }
-    }
-  }
-}
-```
-
-### Claude Desktop
-
-Add the following to your Claude Desktop configuration file:
-
-- **macOS**: `~/Library/Application Support/Claude/claude_desktop_config.json`
-- **Windows**: `%APPDATA%\Claude\claude_desktop_config.json`
-
-```json
-{
-  "mcpServers": {
-    "github-trending": {
-      "command": "github-trending-mcp"
-    }
-  }
-}
-```
+1. run command: `MCP: Add Serve`
+2. type: select `stdio`
+3. command: input `github-trending-mcp`
+4. server id: `github-trending`
 
 ## Proxy Configuration
-> ⚠️ **Troubleshooting:** If fetching repositories fails, please check that your `HTTPS_PROXY` or `HTTP_PROXY` environment variables are correctly set.
+> ⚠️ **Troubleshooting:** If fetching repositories fails and you are using network proxy, please check that your `HTTPS_PROXY` or `HTTP_PROXY` environment variables are correctly set.
 
-## Available Tools
-
-### `github_trending`
-
-Fetches GitHub trending repositories with optional filters.
-
-**Parameters:**
-
-| Parameter | Type | Required | Description |
-|-----------|------|----------|-------------|
-| `language` | string | No | Programming language(s) to filter by. Supports full names, abbreviations, and multiple languages (comma-separated). |
-
-**Language Abbreviations:**
-
-| Abbreviation | Language |
-|--------------|----------|
-| `ts` | TypeScript |
-| `js` | JavaScript |
-| `py` | Python |
-| `rb` | Ruby |
-| `go` | Go |
-| `rs` | Rust |
-| `cs` | C# |
-| `cpp` | C++ |
-
-**Example Usage:**
-
-```
-"What are the trending TypeScript repositories today?"
-"Show me trending Python and Rust projects"
-"Get trending repos for ts, py, go"
-```
 
 ## Available Resources
 
@@ -139,7 +64,7 @@ A pre-built prompt for comprehensive analysis of trending repositories. This pro
 
 **Output includes:**
 1. Overview table with rankings, stars, and descriptions
-2. Detailed analysis of top 5 repositories
+2. Detailed analysis of top 10 repositories.(you can change the generated prompt)
 3. Trend summary with common themes and recommendations
 
 ### How to Use the Prompt
@@ -149,24 +74,6 @@ A pre-built prompt for comprehensive analysis of trending repositories. This pro
 2. Type `/` to see available prompts
 3. Select `analyze_github_trending`
 4. Enter the language(s) you want to analyze
-
-**In Claude Desktop:**
-1. Click the prompt icon (📎) in the chat
-2. Select `analyze_github_trending`
-3. Fill in the language parameter
-
-**Example Interactions:**
-
-```
-# Analyze single language
-Use the analyze_github_trending prompt for TypeScript
-
-# Analyze multiple languages
-Use the analyze_github_trending prompt for "python, rust, go"
-
-# Daily tracking
-Run analyze_github_trending for JavaScript and compare with yesterday's trends
-```
 
 ### 📈 Daily Tracking Strategy
 
@@ -189,8 +96,8 @@ Run analyze_github_trending for JavaScript and compare with yesterday's trends
 
 ```bash
 # Clone the repository
-git clone https://github.com/user/github-trending-mcp.git
-cd github-trending-mcp
+git clone https://github.com/mainhanu/github-trendings-mcp.git
+cd github-trendings-mcp
 
 # Install dependencies
 npm install
@@ -207,9 +114,6 @@ npm run build
 
 # Run tests
 npm test
-
-# Run tests with coverage
-npm run test:coverage
 ```
 
 ## How It Works
@@ -223,8 +127,6 @@ This MCP server scrapes the GitHub Trending page to extract repository informati
 - Top contributors
 
 The data is parsed using Cheerio and returned in a structured JSON format that AI assistants can easily process and present.
-
-**Multi-Language Efficiency:** When querying multiple languages, the server fetches data in parallel, significantly reducing response time compared to sequential requests.
 
 ## License
 
