@@ -8,7 +8,15 @@ Fetch and analyze GitHub trending repositories with the following parameters:
 
 ## Output Format
 
-### 1. Trending Overview
+⚠️ **IMPORTANT**: When multiple languages are specified, output each language's results separately in the following structure. Do NOT mix repositories from different languages together.
+
+### For EACH Language (repeat the following sections per language):
+
+---
+
+## 🔤 [Language Name] Trending
+
+### Trending Overview
 Present a summary table (Repository must be a clickable link: \`[owner/repo](https://github.com/owner/repo)\`):
 
 | # | Repository | ⭐ Total | 📈 ${range === "daily" ? "Today" : range === "weekly" ? "This Week" : "This Month"} | Language | AI Summary |
@@ -16,10 +24,10 @@ Present a summary table (Repository must be a clickable link: \`[owner/repo](htt
 
 > **Note**: "AI Summary" should be a concise description (≤15 words) summarizing the repo's core purpose.
 
-⚠️ **IMPORTANT**: Preserve the exact order and data from the tool result. Do NOT reorder, filter, or modify the ranking. Simply format the raw data into the markdown table and add your analysis.
+⚠️ Preserve the exact order and data from the tool result. Do NOT reorder, filter, or modify the ranking.
 
-### 2. Top 5 Deep Dive
-For each of the top 5 repositories, analyze:
+### Top 10 Deep Dive (for this language only)
+For the top 10 repositories of **this language**, analyze:
 
 #### [Rank]. Repository Name
 - **🎯 What it does**: Core functionality and problem it solves
@@ -27,7 +35,9 @@ For each of the top 5 repositories, analyze:
 - **💼 Use Cases**: Real-world application scenarios
 - **🔥 Why Trending**: Technical/community factors driving popularity
 
-### 3. Insights & Recommendations
+---
+
+## Overall Insights & Recommendations (after all languages)
 - **🔍 Common Patterns**: Themes or technologies appearing across trending repos
 - **📊 Market Signals**: What these trends indicate about developer interests
 - **💡 Action Items**: Specific recommendations for developers/teams
