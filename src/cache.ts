@@ -115,8 +115,8 @@ export function saveTrendingToCache(
   const latestEntry = matchingEntries[0];
 
   if (latestEntry && isSameRepoList(latestEntry.repos, repos)) {
-    // repo 列表相同，直接更新时间戳和数据（数据可能有细微变化如 star 数）
-    latestEntry.timestamp = Date.now();
+    // repo 列表相同，只更新数据（如 star 数），不更新时间戳
+    // 保持原始时间戳，这样 findSeenRepos 能正确识别为"已见过"
     latestEntry.repos = repos;
   } else {
     // 新增缓存条目
