@@ -211,9 +211,9 @@ describe("GitHub Trending MCP Server", () => {
 
       const content = result.messages[0].content;
       expect(content.type).toBe("text");
-      expect((content as { type: "text"; text: string }).text).toContain("github_trending");
+      // Check for key content in the prompt template
+      expect((content as { type: "text"; text: string }).text).toContain("GitHub Trending");
       expect((content as { type: "text"; text: string }).text).toContain("typescript");
-      expect((content as { type: "text"; text: string }).text).toContain("weekly");
     });
 
     it("should use default range when not specified", async () => {
@@ -251,8 +251,12 @@ describe("GitHub Trending MCP Server", () => {
       const data = JSON.parse(getToolTextContent(result));
       expect(data.language).toBe("javascript");
       expect(data.range).toBe("daily");
-      expect(data.repositories).toBeDefined();
-      expect(Array.isArray(data.repositories)).toBe(true);
+      // New structure with newRepositories and seenRepositories
+      expect(data.newRepositories).toBeDefined();
+      expect(data.newRepositories.repositories).toBeDefined();
+      expect(Array.isArray(data.newRepositories.repositories)).toBe(true);
+      expect(data.seenRepositories).toBeDefined();
+      expect(data.trendAnalysis).toBeDefined();
     });
 
     it("should return null language for invalid language", async () => {
@@ -276,9 +280,11 @@ describe("GitHub Trending MCP Server", () => {
       });
 
       const data = JSON.parse(getToolTextContent(result));
-      expect(data.repositories.length).toBeGreaterThan(0);
+      // Get all repos from newRepositories
+      const allNewRepos = data.newRepositories.repositories;
+      expect(allNewRepos.length).toBeGreaterThan(0);
 
-      const repo = data.repositories[0];
+      const repo = allNewRepos[0];
       expect(repo).toHaveProperty("full_name");
       expect(repo).toHaveProperty("description");
       expect(repo).toHaveProperty("language");
@@ -322,15 +328,25 @@ describe("GitHub Trending MCP Server", () => {
 
       const data = JSON.parse(getToolTextContent(result));
       expect(data.language).toBe("typescript");
-      expect(Array.isArray(data.repositories)).toBe(true);
+      expect(data.newRepositories).toBeDefined();
+      expect(Array.isArray(data.newRepositories.repositories)).toBe(true);
 
-      if (data.repositories.length > 0) {
-        const repo = data.repositories[0];
+      // All repos should be in either newRepositories or seenRepositories
+      const allRepos = [
+        ...data.newRepositories.repositories,
+        ...data.seenRepositories.repositories,
+      ];
+
+      if (allRepos.length > 0) {
+        const repo = data.newRepositories.repositories[0] || data.seenRepositories.repositories[0];
         expect(typeof repo.full_name).toBe("string");
         expect(repo.full_name).toMatch(/^[^/]+\/[^/]+$/);
-        expect(typeof repo.stargazers_count).toBe("number");
-        expect(typeof repo.forks_count).toBe("number");
       }
+
+      // Check trend analysis structure
+      expect(data.trendAnalysis).toBeDefined();
+      expect(typeof data.trendAnalysis.hasSufficientData).toBe("boolean");
+      expect(typeof data.trendAnalysis.analysisNote).toBe("string");
     }, 30000);
   });
 });

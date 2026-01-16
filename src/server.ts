@@ -4,6 +4,12 @@ import { languages, languageSet } from "./resources/languages";
 import { popularLanguages } from "./resources/popularLanguages";
 import { getTrendingRepos } from "./trending";
 import { getPromptTemplate } from "./prompt";
+import {
+  saveTrendingToCache,
+  separateNewAndSeenRepos,
+  analyzeTrend,
+  type TrendAnalysisData,
+} from "./cache";
 
 export const server = new McpServer({
   name: "GitHub Trending Repositories Tracker",
@@ -49,7 +55,11 @@ server.registerTool(
 - Popular open source projects
 - Trending repos for specific languages (e.g., "ts trending", "python hot repos", "rust github trending")
 
-Common language abbreviations: ts=typescript, js=javascript, py=python, rb=ruby, go=golang`,
+Common language abbreviations: ts=typescript, js=javascript, py=python, rb=ruby, go=golang
+
+This tool also provides:
+- Cache-based trend analysis (if sufficient historical data available)
+- Identification of new repos vs recently seen repos (within 3 days)`,
     inputSchema: {
       language: z
         .string()
@@ -86,8 +96,22 @@ Common language abbreviations: ts=typescript, js=javascript, py=python, rb=ruby,
 
     const lang =
       normalizedLang && languageSet.has(normalizedLang) ? normalizedLang : null;
+    const effectiveRange = range || "daily";
 
-    const repos = await getTrendingRepos({ lang, range });
+    const repos = await getTrendingRepos({ lang, range: effectiveRange });
+
+    // 保存到缓存
+    saveTrendingToCache(repos, lang, effectiveRange);
+
+    // 分离新 repo 和已见过的 repo
+    const { newRepos, seenRepos, seenRepoNames } = separateNewAndSeenRepos(
+      repos,
+      lang,
+      effectiveRange
+    );
+
+    // 分析趋势
+    const trendAnalysis: TrendAnalysisData = analyzeTrend(repos, lang, effectiveRange);
 
     return {
       content: [
@@ -96,9 +120,41 @@ Common language abbreviations: ts=typescript, js=javascript, py=python, rb=ruby,
           text: JSON.stringify(
             {
               language: lang,
-              range: range || "daily",
+              range: effectiveRange,
               count: repos.length,
-              repositories: repos,
+              // 需要分析的新 repo（3天内未见过）
+              newRepositories: {
+                count: newRepos.length,
+                note: "These repos have NOT appeared in trending within the last 3 days. Focus analysis on these.",
+                repositories: newRepos,
+              },
+              // 已见过的 repo（3天内出现过，不需要详细分析）
+              seenRepositories: {
+                count: seenRepos.length,
+                note: "These repos have appeared in trending within the last 3 days. No need for detailed analysis, just list them.",
+                repositories: seenRepos.map((r) => ({
+                  full_name: r.full_name,
+                  stargazers_count: r.stargazers_count,
+                  stargazers_add: r.stargazers_add,
+                })),
+              },
+              // 趋势分析
+              trendAnalysis: {
+                hasSufficientData: trendAnalysis.hasSufficientData,
+                analysisNote: trendAnalysis.analysisNote,
+                // 仅在有足够数据时提供详细分析
+                ...(trendAnalysis.hasSufficientData
+                  ? {
+                      persistentTrending: trendAnalysis.persistentTrending,
+                      newEntrants: trendAnalysis.newEntrants,
+                      droppedOff: trendAnalysis.droppedOff,
+                      dataPointsSummary: trendAnalysis.dataPoints.map((dp) => ({
+                        date: dp.date,
+                        repoCount: dp.repoCount,
+                      })),
+                    }
+                  : {}),
+              },
             },
             null,
             2
