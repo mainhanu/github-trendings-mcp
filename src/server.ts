@@ -121,23 +121,17 @@ server.registerPrompt(
         .optional()
         .describe(
           "Programming language to analyze (e.g., typescript, python, rust). Leave empty for all languages."
-        ),
-      range: z
-        .enum(["daily", "weekly", "monthly"])
-        .optional()
-        .describe(
-          "Time range for trending: 'daily' (default), 'weekly' (this week), or 'monthly' (this month)"
-        ),
+        )
     },
   },
-  async ({ language, range }) => {
+  async ({ language }) => {
     return {
       messages: [
         {
           role: "user",
           content: {
             type: "text",
-            text: getPromptTemplate(language ?? "", range ?? "daily"),
+            text: getPromptTemplate(language ?? "", "daily"),
           },
         },
       ],
