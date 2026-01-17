@@ -37,7 +37,15 @@ npm update -g github-trending-mcp
 4. server id: `github-trending`
 
 ## Proxy Configuration
-> ⚠️ **Troubleshooting:** If fetching repositories fails and you are using network proxy, please check that your `HTTPS_PROXY` or `HTTP_PROXY` environment variables are correctly set.
+> ⚠️ **Troubleshooting:** If fetching repositories fails and you are using network proxy.
+
+1. option 1: please check that your `HTTPS_PROXY` or `HTTP_PROXY` environment variables are correctly set.
+2. option 2: add `--proxy` after command in mcp server config, like
+```
+"args": [
+  "--proxy=http://127.0.0.1:7890"
+]
+```
 
 
 ## Available Resources

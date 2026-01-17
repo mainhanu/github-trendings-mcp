@@ -6,9 +6,20 @@ function getProxyAgent(): ProxyAgent | undefined {
     process.env.https_proxy ||
     process.env.HTTPS_PROXY ||
     process.env.http_proxy ||
-    process.env.HTTP_PROXY;
+    process.env.HTTP_PROXY || 
+    // get from command arguments
+    (() => {
+      const arg = process.argv.find((a) =>
+        a.startsWith("--proxy=")
+      );
+      if (arg) {
+        return arg.split("=")[1];
+      }
+      return undefined;
+    })();
 
   if (proxyUrl) {
+    console.error(`Using proxy: ${proxyUrl}`);
     return new ProxyAgent(proxyUrl);
   }
   return undefined;
