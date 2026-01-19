@@ -75,6 +75,27 @@ A pre-built prompt for comprehensive analysis of trending repositories. This pro
 2. Detailed analysis of top 10 repositories.(you can change the generated prompt)
 3. Trend summary with common themes and recommendations
 
+### `analyze_repository`
+
+A comprehensive prompt for deep-diving into a specific GitHub repository. Perfect for understanding a project before adopting it or contributing to it.
+
+**Arguments:**
+
+| Argument | Type | Description |
+|----------|------|-------------|
+| `repository` | string | Repository to analyze (e.g., `facebook/react` or full URL) |
+
+**Analysis includes:**
+1. 📦 **Overview** - Stars, forks, language, license, activity
+2. 🔍 **Core Purpose** - What it does and who it's for
+3. ✨ **Key Features** - Main capabilities and functionalities
+4. 💼 **Real-World Use Cases** - Concrete business scenarios
+5. 🏗️ **Architecture** - Tech stack, components, design patterns
+6. 📊 **Community & Adoption** - User base, activity level, notable users
+7. 🗣️ **User Feedback** - Common issues, feature requests, sentiment
+8. 💪 **Strengths & Considerations** - Pros and things to be aware of
+9. 🚀 **Getting Started** - Quick start guide
+
 ### How to Use the Prompt
 
 **In VS Code with Copilot:**

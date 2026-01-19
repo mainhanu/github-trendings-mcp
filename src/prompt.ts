@@ -93,3 +93,119 @@ Repos that were trending but no longer appear:
 ---
 *Analysis based on ${range} GitHub trending data with cache-based trend analysis*`;
 }
+
+export function getRepoAnalysisPromptTemplate(repoInput: string) {
+  return `You are a senior programmer with extensive experience in open-source engineering and deep understanding of software ecosystems.
+
+## Task
+Conduct a comprehensive analysis of the specified GitHub repository.
+
+## Input
+- **Repository**: "${repoInput}" (can be full URL like "https://github.com/owner/repo" or short form like "owner/repo")
+
+## Analysis Process
+
+### 1. Fetch Repository Information
+Use available tools to gather:
+- README content and documentation
+- Repository metadata (stars, forks, issues, contributors)
+- Recent issues and discussions to understand user problems and needs
+- Code structure and architecture overview
+
+### 2. Analyze User Feedback
+From issues and discussions, identify:
+- **Common Pain Points**: What problems do users frequently encounter?
+- **Feature Requests**: What capabilities are users asking for?
+- **Use Case Patterns**: How are people actually using this project?
+
+## Output Format
+
+# 📦 Repository Analysis: [owner/repo]
+
+## 🎯 Overview
+| Attribute | Value |
+|-----------|-------|
+| Repository | [owner/repo](https://github.com/owner/repo) |
+| Stars | ⭐ xxx |
+| Forks | 🍴 xxx |
+| Language | xxx |
+| License | xxx |
+| Last Updated | xxx |
+| Open Issues | xxx |
+
+## 🔍 What It Does
+**Core Purpose**: Clear, concise explanation of what this library/tool does and what problem it solves.
+
+**Target Audience**: Who should use this project (developers, data scientists, DevOps, etc.)
+
+## ✨ Core Features
+List the key features and capabilities:
+1. **Feature 1**: Description
+2. **Feature 2**: Description
+3. **Feature 3**: Description
+...
+
+## 💼 Real-World Use Cases
+Concrete business scenarios where this project can be applied:
+
+### Scenario 1: [Name]
+- **Context**: When/where this applies
+- **How it helps**: What problem it solves
+- **Example**: Brief practical example
+
+### Scenario 2: [Name]
+...
+
+## 🏗️ Architecture Overview
+- **Tech Stack**: Main technologies and frameworks used
+- **Core Components**: Key modules and their responsibilities
+- **Design Patterns**: Notable architectural decisions
+- **Integration Points**: How it connects with other systems
+
+\`\`\`
+[Simple ASCII diagram if helpful]
+\`\`\`
+
+## 📊 Community & Adoption
+- **User Base**: Estimated usage based on stars, downloads, dependents
+- **Activity Level**: How active is development? (commits, releases frequency)
+- **Community Health**: Response time on issues, contributor diversity
+- **Notable Users**: Any known companies or projects using it
+
+## 🗣️ User Feedback Analysis
+Based on issues and discussions:
+
+### Common Questions/Problems
+| Issue Type | Frequency | Summary |
+|------------|-----------|---------|
+| Bug | High/Medium/Low | Brief description |
+| Feature Request | ... | ... |
+| Documentation | ... | ... |
+
+### Top User Requests
+1. **Request 1**: Description and community votes/interest
+2. **Request 2**: ...
+
+### User Sentiment
+Overall community sentiment and satisfaction level
+
+## 💪 Strengths
+- Strength 1
+- Strength 2
+- ...
+
+## ⚠️ Considerations
+Things to be aware of before adopting:
+- Consideration 1
+- Consideration 2
+- ...
+
+## 📝 Summary
+A final 2-3 sentence summary synthesizing the analysis, including:
+- Is it worth using?
+- Best suited for what scenarios?
+- Any alternatives to consider?
+
+---
+*Repository analysis completed on ${new Date().toLocaleDateString("zh-CN")}*`;
+}

@@ -197,6 +197,12 @@ describe("GitHub Trending MCP Server", () => {
       );
       expect(analyzePrompt).toBeDefined();
       expect(analyzePrompt?.description).toContain("Analyze trending repositories");
+
+      const repoAnalyzePrompt = prompts.prompts.find(
+        (p) => p.name === "analyze_repository"
+      );
+      expect(repoAnalyzePrompt).toBeDefined();
+      expect(repoAnalyzePrompt?.description).toContain("comprehensive analysis");
     });
 
     it("should get analyze_github_trending prompt with arguments", async () => {
@@ -224,6 +230,24 @@ describe("GitHub Trending MCP Server", () => {
 
       const content = result.messages[0].content;
       expect((content as { type: "text"; text: string }).text).toContain("daily");
+    });
+
+    it("should get analyze_repository prompt with repository argument", async () => {
+      const result = await client.getPrompt({
+        name: "analyze_repository",
+        arguments: { repository: "facebook/react" },
+      });
+
+      expect(result.messages).toBeDefined();
+      expect(result.messages.length).toBe(1);
+      expect(result.messages[0].role).toBe("user");
+
+      const content = result.messages[0].content;
+      expect(content.type).toBe("text");
+      expect((content as { type: "text"; text: string }).text).toContain("facebook/react");
+      expect((content as { type: "text"; text: string }).text).toContain("Repository Analysis");
+      expect((content as { type: "text"; text: string }).text).toContain("Core Features");
+      expect((content as { type: "text"; text: string }).text).toContain("Real-World Use Cases");
     });
   });
 

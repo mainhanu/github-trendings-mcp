@@ -3,7 +3,7 @@ import { z } from "zod";
 import { languages, languageSet } from "./resources/languages";
 import { popularLanguages } from "./resources/popularLanguages";
 import { getTrendingRepos } from "./trending";
-import { getPromptTemplate } from "./prompt";
+import { getPromptTemplate, getRepoAnalysisPromptTemplate } from "./prompt";
 import {
   saveTrendingToCache,
   separateNewAndSeenRepos,
@@ -188,6 +188,35 @@ server.registerPrompt(
           content: {
             type: "text",
             text: getPromptTemplate(language ?? "", "daily"),
+          },
+        },
+      ],
+    };
+  }
+);
+
+server.registerPrompt(
+  "analyze_repository",
+  {
+    title: "Analyze GitHub Repository",
+    description:
+      "Conduct a comprehensive analysis of a specific GitHub repository. Analyzes README, issues, and community feedback to understand the project's purpose, core features, use cases, architecture, and adoption.",
+    argsSchema: {
+      repository: z
+        .string()
+        .describe(
+          "Repository to analyze. Can be full URL (https://github.com/owner/repo) or short form (owner/repo)"
+        ),
+    },
+  },
+  async ({ repository }) => {
+    return {
+      messages: [
+        {
+          role: "user",
+          content: {
+            type: "text",
+            text: getRepoAnalysisPromptTemplate(repository),
           },
         },
       ],
