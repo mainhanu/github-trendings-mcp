@@ -2,6 +2,7 @@
 
 [![NPM version](https://img.shields.io/npm/v/github-trending-mcp.svg?style=flat)](https://npmjs.com/package/github-trending-mcp)
 [![NPM downloads](http://img.shields.io/npm/dm/github-trending-mcp.svg?style=flat)](https://npmjs.com/package/github-trending-mcp)
+[![GitHub](https://img.shields.io/github/stars/mainhanu/github-trendings-mcp?style=flat)](https://github.com/mainhanu/github-trendings-mcp)
 
 A Model Context Protocol (MCP) server that provides access to GitHub Trending repositories. It allows AI assistants to fetch and analyze trending repositories with language filters.
 

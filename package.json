@@ -21,6 +21,14 @@
     "mainhanu@outlook.com"
   ],
   "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mainhanu/github-trendings-mcp.git"
+  },
+  "bugs": {
+    "url": "https://github.com/mainhanu/github-trendings-mcp/issues"
+  },
+  "homepage": "https://github.com/mainhanu/github-trendings-mcp#readme",
   "files": [
     "dist"
   ],
